@@ -1,0 +1,52 @@
+name: Build Kivy APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            openjdk-17-jdk \
+            unzip \
+            zip \
+            libz-dev \
+            libncurses5 \
+            libstdc++6 \
+            libffi-dev \
+            git \
+            autoconf \
+            automake \
+            libtool \
+            pkg-config \
+            python3-pip \
+            python3-setuptools \
+            python3-wheel
+
+      - name: Install buildozer
+        run: pip install buildozer cython==0.29.36 virtualenv
+
+      - name: Build APK
+        run: |
+          buildozer -v android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: dr-jorhniee-weda-apk
+          path: bin/*.apk
