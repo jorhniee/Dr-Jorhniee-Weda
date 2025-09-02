@@ -1,0 +1,69 @@
+#:import Window kivy.core.window.Window
+
+Root:
+    SplashScreen:
+    HomeScreen:
+
+<SplashScreen>:
+    name: "splash"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(24)
+        spacing: dp(12)
+        canvas.before:
+            Color:
+                rgba: 1,1,1,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Widget:
+        Image:
+            source: "assets/icon.png"
+            size_hint: None, None
+            size: dp(120), dp(120)
+            allow_stretch: True
+            keep_ratio: True
+            pos_hint: {"center_x": .5}
+        Label:
+            text: "Dr. Jorhniee Weda 🌡️🌤️"
+            font_size: "22sp"
+            halign: "center"
+            valign: "middle"
+            size_hint_y: None
+            height: self.texture_size[1] + dp(8)
+        Widget:
+
+<HomeScreen>:
+    name: "home"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(12)
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(48)
+            spacing: dp(8)
+            Label:
+                text: "🌤️  3‑Day Forecast"
+                font_size: "18sp"
+                bold: True
+                halign: "left"
+                valign: "middle"
+        Button:
+            text: "Refresh 🔄"
+            size_hint_y: None
+            height: dp(44)
+            on_release: root.refresh()
+
+        ScrollView:
+            do_scroll_x: False
+            Label:
+                id: result
+                text: "Loading…"
+                markup: True
+                text_size: self.width - dp(8), None
+                size_hint_y: None
+                height: self.texture_size[1] + dp(12)
+                halign: "left"
+                valign: "top"
